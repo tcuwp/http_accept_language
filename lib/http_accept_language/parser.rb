@@ -16,12 +16,12 @@ module HttpAcceptLanguage
     #
     def user_preferred_languages
       @user_preferred_languages ||= begin
-        header.to_s.gsub(/\s+/, '').split(',').map do |language|
-          locale, quality = language.split(';q=')
-          raise ArgumentError, 'Not correctly formatted' unless locale =~ /^[a-z\-0-9]+|\*$/i
+        header.to_s.gsub(/\s+/, "").split(",").map do |language|
+          locale, quality = language.split(";q=")
+          raise ArgumentError, "Not correctly formatted" unless /^[a-z\-0-9]+|\*$/i.match?(locale)
 
-          locale  = locale.downcase.gsub(/-[a-z0-9]+$/i, &:upcase) # Uppercase territory
-          locale  = nil if locale == '*' # Ignore wildcards
+          locale = locale.downcase.gsub(/-[a-z0-9]+$/i, &:upcase) # Uppercase territory
+          locale = nil if locale == "*" # Ignore wildcards
 
           quality = quality ? quality.to_f : 1.0
 
@@ -36,9 +36,7 @@ module HttpAcceptLanguage
 
     # Sets the user languages preference, overriding the browser
     #
-    def user_preferred_languages=(languages)
-      @user_preferred_languages = languages
-    end
+    attr_writer :user_preferred_languages
 
     # Finds the locale specifically requested by the browser.
     #
@@ -59,13 +57,13 @@ module HttpAcceptLanguage
     #   request.compatible_language_from I18n.available_locales
     #
     def compatible_language_from(available_languages)
-      user_preferred_languages.map do |preferred| #en-US
+      user_preferred_languages.map do |preferred| # en-US
         preferred = preferred.downcase
-        preferred_language = preferred.split('-', 2).first
+        preferred_language = preferred.split("-", 2).first
 
         available_languages.find do |available| # en
           available = available.to_s.downcase
-          preferred == available || preferred_language == available.split('-', 2).first
+          preferred == available || preferred_language == available.split("-", 2).first
         end
       end.compact.first
     end
@@ -93,15 +91,15 @@ module HttpAcceptLanguage
     #
     def language_region_compatible_from(available_languages)
       available_languages = sanitize_available_locales(available_languages)
-      user_preferred_languages.map do |preferred| #en-US
+      user_preferred_languages.map do |preferred| # en-US
         preferred = preferred.downcase
-        preferred_language = preferred.split('-', 2).first
+        preferred_language = preferred.split("-", 2).first
 
         lang_group = available_languages.select do |available| # en
-          preferred_language == available.downcase.split('-', 2).first
+          preferred_language == available.downcase.split("-", 2).first
         end
-        
-        lang_group.find { |lang| lang.downcase == preferred } || lang_group.first #en-US, en-UK
+
+        lang_group.find { |lang| lang.downcase == preferred } || lang_group.first # en-US, en-UK
       end.compact.first
     end
   end
