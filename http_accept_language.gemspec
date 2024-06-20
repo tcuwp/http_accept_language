@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.homepage = "https://github.com/iain/http_accept_language"
   spec.license = "MIT"
   spec.name = "http_accept_language"
-  spec.required_ruby_version = ">= 2.7.0"
+  spec.required_ruby_version = ">= 3.0.0"
   spec.summary = "Find out which locale the user prefers by reading the languages they specified in their browser."
   spec.version = HttpAcceptLanguage::VERSION
 
