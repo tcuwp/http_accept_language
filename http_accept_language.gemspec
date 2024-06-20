@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.files = Dir[
     "lib/**/*",
     "README.md",
-    "LICENSE",
+    "LICENSE.txt",
     "http_accept_language.gemspec"
   ]
 
