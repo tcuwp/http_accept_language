@@ -35,7 +35,7 @@ class SomeController < ApplicationController
 end
 ```
 
-You can easily set the locale used for i18n with a callback:
+You can easily set the locale used for i18n with a filter:
 
 ```ruby
 class SomeController < ApplicationController
