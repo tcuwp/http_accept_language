@@ -10,5 +10,4 @@ gem "rake"
 gem "rspec-rails"
 gem "rspec"
 gem "simplecov", require: false
-gem "sqlite3", "< 2"
 gem "standard"
