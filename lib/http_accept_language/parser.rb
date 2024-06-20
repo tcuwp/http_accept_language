@@ -18,7 +18,7 @@ module HttpAcceptLanguage
     #
     def user_preferred_languages
       @user_preferred_languages ||= begin
-        header.to_s.gsub(/\s+/, "").split(",").map do |language|
+        languages_from_header.map do |language|
           locale, quality = language.split(";q=")
           raise ArgumentError, "Not correctly formatted" unless LOCALE_FORMAT.match?(locale)
 
@@ -103,6 +103,15 @@ module HttpAcceptLanguage
 
         lang_group.find { |lang| lang.downcase == preferred } || lang_group.first # en-US, en-UK
       end.compact.first
+    end
+
+    private
+
+    def languages_from_header
+      header
+        .to_s
+        .gsub(/\s+/, "")
+        .split(",")
     end
   end
 end
