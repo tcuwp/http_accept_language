@@ -10,7 +10,6 @@ module HttpAcceptLanguage
     end
 
     # Returns a sorted array based on user preference in HTTP_ACCEPT_LANGUAGE.
-    # Browsers send this HTTP header, so don't think this is holy.
     #
     # Example:
     #
@@ -32,7 +31,7 @@ module HttpAcceptLanguage
         end.sort do |(_, left), (_, right)|
           right <=> left
         end.map(&:first).compact
-      rescue ArgumentError # Just rescue anything if the browser messed up badly.
+      rescue ArgumentError # Rescue from malformed language strings.
         []
       end
     end
@@ -41,7 +40,7 @@ module HttpAcceptLanguage
     #
     attr_writer :user_preferred_languages
 
-    # Finds the locale specifically requested by the browser.
+    # Finds the first locale specifically requested by the browser.
     #
     # Example:
     #
@@ -71,11 +70,11 @@ module HttpAcceptLanguage
       end.compact.first
     end
 
-    # Returns a supplied list of available locals without any extra application info
-    # that may be attached to the locale for storage in the application.
+    # Returns a supplied list of available locales without any extra application
+    # info that may be attached to the locale for storage in the application.
     #
-    # Example:
-    # [ja_JP-x1, en-US-x4, en_UK-x5, fr-FR-x3] => [ja-JP, en-US, en-UK, fr-FR]
+    # Example: [ja_JP-x1, en-US-x4, en_UK-x5, fr-FR-x3] => [ja-JP, en-US, en-UK,
+    # fr-FR]
     #
     def sanitize_available_locales(available_languages)
       available_languages.map do |available|
@@ -83,10 +82,10 @@ module HttpAcceptLanguage
       end
     end
 
-    # Returns the first of the user preferred languages that is
-    # also found in available languages.  Finds best fit by matching on
-    # primary language first and secondarily on region.  If no matching region is
-    # found, return the first language in the group matching that primary language.
+    # Returns the first of the user preferred languages that is also found in
+    # available languages.  Finds best fit by matching on primary language first
+    # and then on region.  If no matching region is found, return the first
+    # language in the group matching that primary language.
     #
     # Example:
     #
