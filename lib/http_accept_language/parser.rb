@@ -1,5 +1,7 @@
 module HttpAcceptLanguage
   class Parser
+    LOCALE_FORMAT = /^[a-z\-0-9]+|\*$/i
+
     attr_accessor :header
 
     def initialize(header)
@@ -18,7 +20,7 @@ module HttpAcceptLanguage
       @user_preferred_languages ||= begin
         header.to_s.gsub(/\s+/, "").split(",").map do |language|
           locale, quality = language.split(";q=")
-          raise ArgumentError, "Not correctly formatted" unless /^[a-z\-0-9]+|\*$/i.match?(locale)
+          raise ArgumentError, "Not correctly formatted" unless LOCALE_FORMAT.match?(locale)
 
           locale = locale.downcase.gsub(/-[a-z0-9]+$/i, &:upcase) # Uppercase territory
           locale = nil if locale == "*" # Ignore wildcards
