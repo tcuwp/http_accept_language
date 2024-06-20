@@ -14,7 +14,6 @@ Gem::Specification.new do |spec|
     "lib/**/*",
     "README.md",
     "LICENSE.txt",
-    "http_accept_language.gemspec"
   ]
 
   spec.bindir = "exe"
