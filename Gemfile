@@ -3,7 +3,6 @@ source "https://rubygems.org"
 gemspec
 
 gem "combustion"
-gem "listen"
 gem "rack-test"
 gem "rails", "> 6"
 gem "rake"
