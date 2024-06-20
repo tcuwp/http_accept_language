@@ -1,5 +1,6 @@
 module HttpAcceptLanguage
   class Parser
+    DEFAULT_QUALITY = 1.0
     LOCALE_FORMAT = /^[a-z\-0-9]+|\*$/i
 
     attr_accessor :header
@@ -25,7 +26,7 @@ module HttpAcceptLanguage
           locale = locale.downcase.gsub(/-[a-z0-9]+$/i, &:upcase) # Uppercase territory
           locale = nil if locale == "*" # Ignore wildcards
 
-          quality = quality ? quality.to_f : 1.0
+          quality = quality ? quality.to_f : DEFAULT_QUALITY
 
           [locale, quality]
         end.sort do |(_, left), (_, right)|
